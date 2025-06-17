@@ -27,8 +27,6 @@ public class Player extends Sprite { //child of Sprite
             setY(getY() - 1); // alters y coordinate, decreases
         } else if (direction.equals("d")) { // moves right
             setX(getX() + 1); // alters x coordinate, increases
-        } else {
-            System.out.println("That's not a movement, silly!"); // invalid input message
         }
     }
 

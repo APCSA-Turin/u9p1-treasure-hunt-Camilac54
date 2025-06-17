@@ -8,6 +8,6 @@ public class Treasure extends Sprite { //child of Sprite
 
     @Override
     public String toString() {
-        return "℧";
+        return " ℧";
     }
 }

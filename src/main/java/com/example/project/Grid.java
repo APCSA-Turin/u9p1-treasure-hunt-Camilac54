@@ -10,14 +10,14 @@ public class Grid{
         grid = new Sprite[size][size]; // creating an empty grid with declared size
         for (int row = 0; row < size; row ++) { // filling in the grid with Dot objects, row first
             for (int col = 0; col < size; col ++) { // iterating through columns inside rows
-                grid[row][col] = new Dot(); // adding the dots
+                grid[row][col] = new Dot(col, size - 1 - row); // adding the dots
             }
         }
     }
  
     public Sprite[][] getGrid(){return grid;}
 
-
+    
     public void placeSprite(Sprite s){ // place sprite in new spot
         int row = size - 1 - s.getY();
         int col = s.getX();
@@ -28,17 +28,8 @@ public class Grid{
 
     public void placeSprite(Sprite s, String direction) { // place sprite in a new spot based on direction
         int oldY = s.getY();
-        int oldX = s.getX();
-        
-        if (direction.equals("w")) { // moves up
-            oldY = s.getY() - 1; // obtains previous movement, which was one down
-        } else if (direction.equals("s")) { // moves down
-            oldY = s.getY() + 1; // obtains previous movement, which was one up
-        } else if (direction.equals("a")) { // moves left
-            oldX = s.getX() + 1; // obtains previous momvent, which was one right 
-        } else if (direction.equals("d")) { // moves right
-            oldX = s.getX() - 1; // obtains previous movement, which was one left
-        }
+        int oldX = s.getX();  
+        s.move(direction);
 
         // grid variables with oldY and oldX
         int oldGridRow = size - 1 - oldY;
@@ -59,17 +50,17 @@ public class Grid{
     public void display() { // print out the current grid to the screen 
         for (int row = 0; row < size; row ++) { // iterating through rows
             for (int col = 0; col < size; col ++) { // iterating through columns
-                System.out.println(grid[row][col].toString() + " "); // placing specific index with space
+                System.out.print(grid[row][col].toString() + " ");
             }
-            System.out.println();
+            System.out.println(); // new line after each row is complete
         }
     }
     
     public void gameover(){ //use this method to display a loss
-        System.out.println("Game over. You lost all of your lives.");
+        System.out.println("The aliens consumed you...Better luck next time!");
     }
 
     public void win(){ //use this method to display a win 
-        System.out.println("You win! You got all the treasure!");
+        System.out.println("You got your horse back! And...");
     }
 }
