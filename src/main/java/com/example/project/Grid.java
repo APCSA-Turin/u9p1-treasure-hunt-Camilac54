@@ -24,7 +24,12 @@ public class Grid{
     public void placeSprite(Sprite s){ //place sprite in new spot
         int row = size - 1 - s.getY();
         int col = s.getX();
-        grid[row][col] = s;
+        grid[row][col] = new Dot();
+
+        int newRow = size - 1 - s.getY();
+        int newCol = s.getX();
+        grid[newRow][newCol] = s;
+
     }
 
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
