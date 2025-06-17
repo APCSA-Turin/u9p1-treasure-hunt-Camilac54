@@ -1,7 +1,7 @@
 package com.example.project;
 
 //DO NOT DELETE ANY METHODS BELOW
-public class Player extends Sprite {
+public class Player extends Sprite { //child of Sprite
     private int treasureCount;
     private int numLives;
     private boolean win;
@@ -65,4 +65,15 @@ public class Player extends Sprite {
 
         return newX >= 0 && newX < size && newY >= 0 && newY < size; 
     }
+
+        @Override
+    public String getCoords(){ //returns "Enemy:"+coordinates
+        return "Player:" + super.getCoords(); // uses method from Sprite
+    }
+
+    @Override
+    public String getRowCol(int size){ //return "Enemy:"+row col
+        return "Player:[" + (size - 1 - getY() + "][" + getX() + "]"); // uses more methods from Sprite to find row and col
+    }
+
 }

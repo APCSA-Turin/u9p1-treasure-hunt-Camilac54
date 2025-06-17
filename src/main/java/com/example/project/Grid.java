@@ -1,6 +1,5 @@
 package com.example.project;
 
-
 //DO NOT DELETE ANY METHODS BELOW
 public class Grid{
     private Sprite[][] grid;
