@@ -13,11 +13,9 @@ public class Player extends Sprite {
         win = false;
     }
 
-
     public int getTreasureCount(){return treasureCount;}
     public int getLives(){return numLives;}
     public boolean getWin(){return win;}
-
   
     // move method should override parent class, sprite
     public void move(String direction) { // move the (x,y) coordinates of the player
@@ -34,7 +32,6 @@ public class Player extends Sprite {
         }
     }
 
-
     public void interact(int size, String direction, int numTreasures, Object obj) { // interact with an object in the position you are moving to 
     //numTreasures is the total treasures at the beginning of the game
         if (obj instanceof Trophy) { // check if the player can win first
@@ -47,7 +44,6 @@ public class Player extends Sprite {
             numLives--;
         }
     }
-
 
     public boolean isValid(int size, String direction){ //check grid boundaries
         // return false;

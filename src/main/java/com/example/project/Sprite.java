@@ -23,15 +23,11 @@ public class Sprite {
     }
 
     public String getCoords(){ //returns the coordinates of the sprite ->"(x,y)"
-        return "(" + getX() + "," + getY() + ")";
+        return "Player:(" + getX() + "," + getY() + ")";
     }
 
     public String getRowCol(int size){ //returns the row and column of the sprite -> "[row][col]"
-        // int row = size - 1 - y;
-        // int col = x;
-        // return "[" + row + "][" + col + "]";
         return "Player:[" + (size - 1 - getY()) + "][" + getX() + "]";
-
     }
     
 
