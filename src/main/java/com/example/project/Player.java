@@ -76,4 +76,9 @@ public class Player extends Sprite { //child of Sprite
         return "Player:[" + (size - 1 - getY() + "][" + getX() + "]"); // Overrides method from Sprite to present grid row and col
     }
 
+    @Override
+    public String toString() {
+        return "🤠";
+    }
+
 }

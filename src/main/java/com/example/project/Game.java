@@ -21,7 +21,7 @@ public class Game{
             } else {
                 // Unix-based (Linux, macOS)
                 System.out.print("\033[H\033[2J");
-                Systemgit .out.flush();
+                System.out.flush();
             }
         } catch (Exception e) {
             e.printStackTrace();
