@@ -10,6 +10,6 @@ public class Dot extends Sprite {
 
     @Override
     public String toString() {
-        return "🟦";
+        return "🟨";
     }
 }

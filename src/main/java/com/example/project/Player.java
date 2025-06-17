@@ -34,7 +34,7 @@ public class Player extends Sprite { //child of Sprite
 
     public void interact(int size, String direction, int numTreasures, Object obj) { // interact with an object in the position you are moving to 
     //numTreasures is the total treasures at the beginning of the game
-        if (obj instanceof Trophy) { // check if the player can win first
+        if (obj instanceof Trophy) { // first check if the player can win
             if (treasureCount == numTreasures) {
                 win = true;
             }
@@ -63,17 +63,17 @@ public class Player extends Sprite { //child of Sprite
             return false;
         }
 
-        return newX >= 0 && newX < size && newY >= 0 && newY < size; 
-    }
-
-        @Override
-    public String getCoords(){ //returns "Enemy:"+coordinates
-        return "Player:" + super.getCoords(); // uses method from Sprite
+        return newX >= 0 && newX < size && newY >= 0 && newY < size; // checks if new position is valid to place and returns if true or not
     }
 
     @Override
-    public String getRowCol(int size){ //return "Enemy:"+row col
-        return "Player:[" + (size - 1 - getY() + "][" + getX() + "]"); // uses more methods from Sprite to find row and col
+    public String getCoords(){ //returns "Player:"+coordinates
+        return "Player:" + super.getCoords(); // Overrides method from Sprite to present coords
+    }
+
+    @Override
+    public String getRowCol(int size){ //return "Player:"+row col
+        return "Player:[" + (size - 1 - getY() + "][" + getX() + "]"); // Overrides method from Sprite to present grid row and col
     }
 
 }

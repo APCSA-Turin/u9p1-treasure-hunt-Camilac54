@@ -21,7 +21,7 @@ public class Grid{
     public void placeSprite(Sprite s){ // place sprite in new spot
         int row = size - 1 - s.getY();
         int col = s.getX();
-        if (row >= 0 && row < size && col >= 0 && col < size) {
+        if (row >= 0 && row < size && col >= 0 && col < size) { // checks if the new place is a valid spot on the grid
             grid[row][col] = s;
         }
     }

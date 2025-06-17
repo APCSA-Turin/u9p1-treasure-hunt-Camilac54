@@ -15,10 +15,10 @@ public class Sprite {
         return y;
     }
 
-    public void setX(int x2){
+    public void setX(int x2){ // sets the new x value
         x = x2;
     }
-    public void setY(int y2){
+    public void setY(int y2){ // sets the new y value
         y = y2;
     }
 
