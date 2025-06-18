@@ -78,5 +78,4 @@ public class Player extends Sprite { //child of Sprite
     public String toString() {
         return "🤠";
     }
-
 }

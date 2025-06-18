@@ -78,9 +78,11 @@ public class Game{
                 continue; 
             }
 
+            // Player Variables 
             int newPlayerX = player.getX();
             int newPlayerY = player.getY();
 
+            // Movement input checker 
             if (userInput.equals("w")) {
                 newPlayerY += 1;
             } else if (userInput.equals("s")) {
@@ -93,95 +95,84 @@ public class Game{
 
             // Check if the intended move is within bounds using player.isValid()
             if (player.isValid(size, userInput)) {
-                // Get the sprite at the potential new location
-                Sprite targetSprite = grid.getGrid()[size - 1 - newPlayerY][newPlayerX];
+
+                Sprite targetSprite = grid.getGrid()[size - 1 - newPlayerY][newPlayerX]; // new sprite location
                 player.interact(size, userInput, totalTreasures, targetSprite);
 
-                boolean playerCanMove = true; // Assume player can move by default
-
-                if (targetSprite instanceof Treasure) {
-                    // Player collects treasure, replaces treasure with Dot, and moves
-                    // The treasure object should be replaced by a dot on the grid.
-                    grid.getGrid()[size - 1 - newPlayerY][newPlayerX] = new Dot(newPlayerX, newPlayerY); // Treasure becomes a Dot
-                } else if (targetSprite instanceof Enemy) {
-                    // Player encounters an enemy. Player takes damage.
-                    // Player does NOT move onto the enemy's spot.
-                    playerCanMove = false; // Player stays at old position
-                    // Message already printed by player.interact or can be added here
+                boolean playerCanMove = true; 
+                
+                // Logic to check which Sprite the user might encounter
+                if (targetSprite instanceof Treasure) { // checks if treasure
+                    grid.getGrid()[size - 1 - newPlayerY][newPlayerX] = new Dot(newPlayerX, newPlayerY); // converts treasure into a Dot (clearing it)
+                } else if (targetSprite instanceof Enemy) { // Player cannot move if a Dot is an enemy
+                    playerCanMove = false; 
                 }
-                // If targetSprite is Trophy or Dot, player just moves normally.
+                if (playerCanMove) { // player moves normally 
+                    player.setX(newPlayerX);
+                    player.setY(newPlayerY);
 
-                if (playerCanMove) {
                     grid.placeSprite(player, userInput);
                 }
             } else {
-                System.out.println("You cannot move outside the grid boundaries!");
+                System.out.println("You cannot move outside the grid boundaries!"); // out of boundaries 
             }
-            // scanner.close();
         }
     }
 
     public void initialize(){
         grid = new Grid(size);
         player = new Player(0,0);
-        grid.placeSprite(player); // Player starts at (0,0)
+        grid.placeSprite(player); // player starts at (0,0)
 
         Random rand = new Random();
 
         // Place Enemies
         int numEnemies = size / 3;
         enemies = new Enemy[numEnemies];
-        for (int i = 0; i < numEnemies; i++) {
-            int enemyX, enemyY;
-            do {
-                enemyX = rand.nextInt(size);
-                enemyY = rand.nextInt(size);
-            } while (isOccupied(enemyX, enemyY)); // Use isOccupied to check if spot is free
-            enemies[i] = new Enemy(enemyX, enemyY);
-            grid.placeSprite(enemies[i]);
+        for (int i = 0; i < numEnemies; i++) {  
+            int enemyX = rand.nextInt(size);
+            int enemyY = rand.nextInt(size);
+            if (!(isOccupied(enemyX,enemyY))) {
+                enemies[i] = new Enemy(enemyX, enemyY);
+                grid.placeSprite(enemies[i]);
+            }
         }
 
         // Place Treasures
-        int numTreasures = size / 2; // Example: 5 treasures for size 10 grid
+        int numTreasures = size / 2; 
         treasures = new Treasure[numTreasures];
-        totalTreasures = numTreasures; // Store total for win condition
-        for (int i = 0; i < numTreasures; i++) {
-            int treasureX, treasureY;
-            do {
-                treasureX = rand.nextInt(size);
-                treasureY = rand.nextInt(size);
-            } while (isOccupied(treasureX, treasureY)); // Use isOccupied
-            treasures[i] = new Treasure(treasureX, treasureY);
-            grid.placeSprite(treasures[i]);
+        totalTreasures = numTreasures;
+        for (int i = 0; i < numTreasures; i++) { 
+            // set x and y coorindates in random locations 
+            int treasureX = rand.nextInt(size);
+            int treasureY = rand.nextInt(size);
+            if (!isOccupied(treasureX,treasureY)) {
+                treasures[i] = new Treasure(treasureX, treasureY);
+                grid.placeSprite(treasures[i]);
+            }            
         }
 
         // Place Trophy
-        int trophyX, trophyY;
-        do {
-            trophyX = rand.nextInt(size); // Randomly place trophy
-            trophyY = rand.nextInt(size);
-        } while (isOccupied(trophyX, trophyY)); // Use isOccupied
-        trophy = new Trophy(trophyX, trophyY);
-        grid.placeSprite(trophy);
-
+        int trophyX = rand.nextInt(size);
+        int trophyY = rand.nextInt(size);
+        if (!isOccupied(trophyX,trophyY)) {
+            trophy = new Trophy(trophyX, trophyY);
+            grid.placeSprite(trophy);
+        }
         //to test, create a player, trophy, grid, treasure, and enemies. Then call placeSprite() to put them on the grid
-   
     }
 
+    // Method to check if enemies or treasures can be placed on specific areas of the map
     private boolean isOccupied(int x, int y) {
-        // Convert (x,y) to grid (row,col)
         int row = size - 1 - y;
         int col = x;
 
-        // Boundary check (though random.nextInt(size) should keep it in bounds)
-        if (row < 0 || row >= size || col < 0 || col >= size) {
-            return true; // Consider out-of-bounds as occupied to prevent placement
+        if (row < 0 || row >= size || col < 0 || col >= size) { // checking if its kept in bounds
+            return true;
         }
-
         Sprite s = grid.getGrid()[row][col];
-        return !(s instanceof Dot); // It's occupied if it's not a Dot
+        return !(s instanceof Dot); // essentially, it's occupied if it's not a Dot
     }
-
 
     public static void main(String[] args) {
         Scanner setupScanner = new Scanner(System.in);
@@ -192,17 +183,16 @@ public class Game{
             System.out.print("Enter grid size (e.g., 10 for a 10x10 grid): ");
             try {
                 gameSize = setupScanner.nextInt();
-                if (gameSize > 2 && gameSize <= 20) { // Example constraint: min 3x3, max 20x20
+                if (gameSize > 2 && gameSize <= 20) { 
                     validSize = true;
                 } else {
                     System.out.println("Grid size must be between 3 and 20.");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a number.");
-                setupScanner.next(); // Consume the invalid input
+                setupScanner.next(); 
             }
         }
-
         Game game = new Game(gameSize);
     }
 }

@@ -16,7 +16,6 @@ public class Grid{
     }
  
     public Sprite[][] getGrid(){return grid;}
-
     
     public void placeSprite(Sprite s){ // place sprite in new spot
         int row = size - 1 - s.getY();
@@ -27,25 +26,41 @@ public class Grid{
     }
 
     public void placeSprite(Sprite s, String direction) { // place sprite in a new spot based on direction
-        int oldY = s.getY();
-        int oldX = s.getX();  
-        s.move(direction);
+        int newX = s.getX();
+        int newY = s.getY();
 
-        // grid variables with oldY and oldX
-        int oldGridRow = size - 1 - oldY;
-        int oldGridCol = oldX;
-
-        // if the oldGrid rows and columns are valid places, place a dot there
-        if (oldGridRow >= 0 && oldGridRow < size && oldGridCol >= 0 && oldGridCol < size) {
-            grid[oldGridRow][oldGridCol] = new Dot();
+        int oldX = newX;
+        int oldY = newY;
+        if (direction.equals("w")) { // Player moved up 
+            oldY -= 1; 
+        } else if (direction.equals("s")) { // Player moved down
+            oldY += 1;
+        } else if (direction.equals("a")) { // Player moved left 
+            oldX += 1;
+        } else if (direction.equals("d")) { // Player moved right 
+            oldX -= 1;
         }
 
-        // new grid variables for new place of sprite
-        int newGridRow = size - 1 - s.getY(); 
-        int newGridCol = s.getX();
-        grid[newGridRow][newGridCol] = s; // placing new sprite
-    }
+        // Record old coordinated and new coordinates 
+        int oldGridRow = size - 1 - oldY;
+        int oldGridCol = oldX;
+        int newGridRow = size - 1 - newY;
+        int newGridCol = newX;
 
+        if (s instanceof Player && newGridRow >= 0 && newGridRow < size && newGridCol >= 0 && newGridCol < size) { // only perform if Player and if it can be in bounds 
+            if (grid[newGridRow][newGridCol] instanceof Treasure) {
+                grid[newGridRow][newGridCol] = new Dot(newX, newY); // Replace Treasure with Dot
+            }
+        }
+
+        if (oldGridRow >= 0 && oldGridRow < size && oldGridCol >= 0 && oldGridCol < size) { // checks if in bounds 
+            grid[oldGridRow][oldGridCol] = new Dot(oldX, oldY); // replace into Dot 
+        }
+
+        if (newGridRow >= 0 && newGridRow < size && newGridCol >= 0 && newGridCol < size) { // move sprite
+            grid[newGridRow][newGridCol] = s;  
+        } 
+    }
 
     public void display() { // print out the current grid to the screen 
         for (int row = 0; row < size; row ++) { // iterating through rows
