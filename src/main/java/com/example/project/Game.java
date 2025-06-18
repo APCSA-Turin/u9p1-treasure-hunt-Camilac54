@@ -179,6 +179,7 @@ public class Game{
         int gameSize = 0;
         boolean validSize = false;
 
+        System.out.println("Welcome to Cowboy Chase!\nYour horse ran off and lost their horse shoes!\nYou need to collect them in your wheat field and then capture your horse!\nWatch out for the aliens....");
         while (!validSize) {
             System.out.print("Enter grid size (e.g., 10 for a 10x10 grid): ");
             try {
